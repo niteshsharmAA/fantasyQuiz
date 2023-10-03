@@ -1,0 +1,276 @@
+<%- include("../../partials/head") %>
+
+  <%- include("../../partials/bodyStartWithNavBar/") %>
+    <%- include("../../partials/sideNav") %>
+      <div id="layoutSidenav_content">
+        <main>
+
+          <div class="page-header pb-10 page-header-dark bg-info">
+            <div class="container-fluid">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="page-header-content">
+                    <h1 class="page-header-title fs-md-35 fs-20">
+
+                      <div class="page-header-icon"><i class="fad fa-at text-white"></i></div>
+                      <span class=" text-capitalize">
+                        Stock Manager
+                      </span>
+                    </h1>
+                    <div class="page-header-subtitle fs-md-19 fs-14 text-capitalize">
+                      View Stock By Category
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto mb-md-0 mb-3">
+                  <a href="/add_Stock_category" class="btn btn-sm btn-light font-weight-bold text-uppercase text-primary text-uppercase"><i class="fa fa-plus"></i>&nbsp; ADD STOCk In CATEGORY</a>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid mt-n10">
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mb-3">
+                  <div class="card-heading p-3">
+                    <form method="get" action="/viewStocks">
+                      <div class="sbp-preview position-relative">
+                        <div class="form-group">
+                          <div class="row mx-0">
+                            <%if(catName){%>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <select class="form-control mt-4" id="catId"
+                                      data-container="body" data-live-search="true"
+                                      title="Select Category" data-hide-disabled="true"
+                                      name="category" >
+                                      </option>
+                                          <% if(categories) {%>
+                                              <%for(let i of categories) {
+                                                  %>
+                                                  <option value="<%= i._id%>" <%= catName === i._id.toString()?'selected':"" %>>
+                                                      <%=i.name%> 
+                                                  </option>
+                                              <%}%>
+                                          <% }%>
+                                  </select>
+                                </div>
+                                </div>
+                              <%}else{%>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <select class="form-control mt-4" id="catId"
+                                        data-container="body" data-live-search="true"
+                                        title="Select Category" data-hide-disabled="true"
+                                        name="category" >
+                                        <option disabled selected> Select Category
+                                        </option>
+                                            <% if(categories) {%>
+                                                <%for(let i of categories) {
+                                                    %>
+                                                    <option value="<%= i._id%>">
+                                                        <%=i.name%> 
+                                                    </option>
+                                                <%}%>
+                                            <% }%>
+                                    </select>
+                                  </div>
+                                  </div>
+
+                                <%}%>
+                            
+                             <% if(stockType) {%>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <select class="form-control mt-4" id="stockType"
+                                      data-container="body" data-live-search="true"
+                                      title="Select Stock Type" data-hide-disabled="true"
+                                      name="stockType" >
+                                          <option value="NSE" <%= stockType==="NSE"?"selected":"" %>>NSE</option>
+                                          <option value="MCX" <%= stockType==="MCX"?"selected":"" %>>MCX</option>
+                                          <option value="COMMODITIES"  <%= stockType==="COMMODITIES"?"selected":"" %>>COMMODITIES</option>
+                                  </select>
+                              </div>
+                            </div>
+                              <%}else{%>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <select class="form-control mt-4" id="stockType"
+                                      data-container="body" data-live-search="true"
+                                      title="Select Stock Type" data-hide-disabled="true"
+                                      name="stockType" >
+                                      <option disabled selected> Select Stock Type
+                                      </option>
+                                          <option value="NSE">NSE</option>
+                                          <option value="MCX">MCX</option>
+                                          <option value="COMMODITIES">COMMODITIES</option>
+                                  </select>
+                              </div>
+                            </div>
+                            <%}%>
+                            <div class="col-12 text-right mt-4 mb-2">
+                              <button class="btn btn-sm btn-success text-uppercase"><i class="far fa-check-circle"
+                                  type="submit"></i>&nbsp;Submit</button>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mb-4">
+              <div class="card-header">
+                <div class="row w-100 align-items-center mx-0">
+                  <div class="col-md col-12 mb-md-0 mb-2 text-md-left text-center">ADD</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="datatable table-responsive">
+                    <table class="table table-bordered table-hover text-nowrap" id="stockTable"
+                        width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                
+                                <th>Sno.</th>
+                                <th>Instrument Token</th>
+                                <th>Exchange Token</th>
+                                <th>Trading Symbol</th>
+                                <th>Name</th>
+                                <th>Expiry</th>
+                                <th>Strike</th>
+                                <th>Tick size</th>
+                                <th>Lot size</th>
+                                <th>Instrument Type</th>
+                                <th>Segment</th>
+                                <th>exchange</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                
+                                <th>Sno.</th>
+                                <th>Instrument Token</th>
+                                <th>Exchange Token</th>
+                                <th>Trading Symbol</th>
+                                <th>Name</th>
+                                <th>Expiry</th>
+                                <th>Strike</th>
+                                <th>Tick size</th>
+                                <th>Lot size</th>
+                                <th>Instrument Type</th>
+                                <th>Segment</th>
+                                <th>Exchange</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <!-- <span class="float-right"></span> -->
+                </div>
+              </div>
+            </div>
+
+            <script>
+              $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+              });
+            </script>
+            <script type="text/javascript">
+              $(document).ready(function () {
+                const elem = $('#catId').val();
+                const elem2 = $('#stockType').val();
+                $.fn.dataTable.ext.errMode = 'none';
+                $('#stockTable').DataTable({
+                  language: {
+                  zeroRecords: "No records to display",
+                },
+                  "ajax": {
+                    "url": `/viewStockDatabale?stockcategory=${elem}&stockType=${elem2}`,
+                    "dataType": "json",
+                    "type": "GET",
+                  },
+                  "lengthMenu": [
+                    [10, 25, 50, 100, 1000, 10000],
+                    [10, 25, 50, 100, 1000, 10000]
+                  ],
+                  columns: [
+                    {
+                        data: "count"
+                    },
+                    {
+                        data: "instrument_token"
+                    },
+                    {
+                        data: "exchange_token"
+                    },
+                    {
+                        data: "tradingsymbol"
+                    },
+                    {
+                        data: "name"
+                    },
+                    {
+                        data: "expiry"
+                    },
+                    {
+                        data: "strike"
+                    },
+                    {
+                        data: "tick_size"
+                    },
+                    {
+                        data: "lot_size"
+                    },
+                    {
+                        data: "instrument_type"
+                    },
+                    {
+                        data: "segment"
+                    },
+                    {
+                        data: "exchange"
+                    },{
+                      data: "action"
+                    }]
+
+                });
+
+              });
+            </script>
+
+          
+          </div>
+        </main>
+        <%- include("../../partials/footer") %>
+
+          <script>
+
+            $(window).on('load', function () {
+
+              $('#preloader_admin').hide();
+
+            })
+          </script>
+
+          <script>
+            $(document).ready(function () {
+
+              if ($('#accordionSidenavPages a').hasClass('active')) {
+                $('#accordionSidenavPages a.active').parent().parent().prev('a').removeClass('collapsed');
+                $('#accordionSidenavPages a.active').parent().parent().addClass('show');
+              } else {
+                $('#takeonebar').addClass('slamdown');
+              }
+            });
+
+          </script>
+
